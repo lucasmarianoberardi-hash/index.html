@@ -819,43 +819,27 @@
     </style>
 </head>
 
-<body>
-   <div class="fixed-icons">
-    <button id="scroll-top-icon" aria-label="Volver al inicio">
-        <img src="https://cdn-icons-png.flaticon.com/256/4510/4510643.png" alt="Logo Dietética Virgilio - Volver al Inicio" style="height: 20px; vertical-align: middle;">
-    </button>
-    <button id="cart-icon" class="icon-button" aria-label="Ver carrito de compras">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count" class="cart-count">0</span>
-    </button>
-    <div class="menu-desplegable">
-        <button id="category-icon" class="icon-button" aria-label="Mostrar categorías">
-            <i class="fas fa-bars"></i>
+<body> 
+    <div class="fixed-icons">
+        <button id="scroll-top-icon" aria-label="Volver al inicio">
+            <img src="https://cdn-icons-png.flaticon.com/256/4510/4510643.png" alt="Logo Dietética Virgilio - Volver al Inicio" style="height: 20px; vertical-align: middle;">
         </button>
-        <nav class="menu-desplegable-contenido" aria-label="Menú de categorías">
-            <ul>
-            </ul>
-        </nav>
-    </div>
-    <button id="search-icon" class="icon-button" aria-label="Buscar productos">
-        <i class="fas fa-search"></i>
-    </button>
-    <button id="qr-scan-icon" class="icon-button" aria-label="Escanear código QR">
-        <i class="fas fa-qrcode"></i>
-    </button>
-</div>
-
-<input type="text" id="search" placeholder="Buscar producto..." aria-label="Buscar productos" autocomplete="off">
-
-<div id="qr-scanner-container">
-    <div id="qr-scanner-content">
-        <button id="close-qr-scanner" aria-label="Cerrar escáner">&times;</button>
-        <h2>Escanear Código QR</h2>
-        <div id="reader"></div>
-    </div>
-
-    <input type="text" id="search" placeholder="Buscar producto..." aria-label="Buscar productos" autocomplete="on">
-</button>
+        <button id="cart-icon" class="icon-button" aria-label="Ver carrito de compras">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count" class="cart-count">0</span>
+        </button>
+        <div class="menu-desplegable">
+            <button id="category-icon" class="icon-button" aria-label="Mostrar categorías">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="menu-desplegable-contenido" aria-label="Menú de categorías">
+                <ul>
+                </ul>
+            </nav>
+        </div>
+        <button id="search-icon" class="icon-button" aria-label="Buscar productos">
+            <i class="fas fa-search"></i>
+        </button>
         <button id="qr-scan-icon" class="icon-button" aria-label="Escanear código QR">
             <i class="fas fa-qrcode"></i>
         </button>
@@ -890,6 +874,7 @@
     </section>
 
     <button class="scroll-to-top" id="scroll-to-top-footer" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
+  <script>
 
     <script>
         // FIX: Se agregó un reseteo para evitar datos corruptos en el celular
