@@ -1377,11 +1377,55 @@
         document.getElementById('category-icon').addEventListener('click', handleButtonClick);
         document.getElementById('qr-scan-icon').addEventListener('click', handleButtonClick);
 
-        // Event Listener para el botón de cerrar del escáner
-        document.getElementById('close-qr-scanner').addEventListener('click', () => {
-            document.getElementById('qr-scanner-container').style.display = 'none';
-            document.getElementById('qr-iframe').style.display = 'none';
-        });
+         // --- Lógica del Escáner QR ---
+        const qrScannerContainer = document.getElementById('qr-scanner-container');
+        let html5QrcodeScanner = null;
+
+        function startQrScanner() {
+            if (!html5QrcodeScanner) {
+                html5QrcodeScanner = new Html5QrcodeScanner(
+                    "reader", {
+                        fps: 10,
+                        qrbox: {
+                            width: 250,
+                            height: 250
+                        }
+                    },
+                    false);
+            }
+
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
+
+        function stopQrScanner() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear().catch(error => {
+                    console.error("No se pudo detener el escáner:", error);
+                });
+            }
+            qrScannerContainer.style.display = 'none';
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Código escaneado: ${decodedText}`);
+            const product = allProducts.find(p => p['Nombre del Producto'].trim() === decodedText.trim());
+
+            if (product) {
+                addToCart(product, 1);
+                showNotification(`Producto escaneado y agregado: ${product['Nombre del Producto']}`);
+                stopQrScanner();
+            } else {
+                showNotification(`Producto "${decodedText}" no encontrado.`);
+            }
+        }
+
+        function onScanFailure(error) {
+            // Ignorar errores menores como "no se encontró QR" para evitar spam en la consola.
+            if (error.includes("No QR code found")) {
+                return;
+            }
+            console.warn(`Error de escaneo: ${error}`);
+        }
 
         // Lógica de búsqueda
         document.getElementById('search').addEventListener('input', (event) => {
