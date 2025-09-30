@@ -677,9 +677,10 @@
         // URL PROPORCIONADA POR EL USUARIO PARA EL CATÁLOGO COMPLETO
         const productsUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtRvbHZgDDAVSfbF5R7HlIrv_2w8_ZZOx87Ssf96f9-5mBIIhg3_qofvXaK0TElyogxjN7BI7PJn2l/pub?gid=1169053887&single=true&output=csv';
         
-        // >>> URL SÓLO PARA LA CELDA W2 (CÓDIGO DE SEGURIDAD) <<<
-        // MISMA URL DE PUBLICACIÓN, PERO AGREGANDO EL RANGE=W2
-        const securityCodeUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtRvbHZgDDAVSfbF5R7HlIrv_2w8_ZZOx87Ssf96f9-5mBIIhg3_qofvXaK0TElyogxjN7BI7PJn2l/pub?gid=1169053887&single=true&range=W2&output=csv';
+        // >>> URL SÓLO PARA LA CELDA A2 (CÓDIGO DE SEGURIDAD) <<<
+        // MISMA URL DE PUBLICACIÓN, PERO AGREGANDO EL RANGE=A2
+        // Nota: Asegúrate de que la celda A2 contenga el código. 
+        const securityCodeUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtRvbHZgDDAVSfbF5R7HlIrv_2w8_ZZOx87Ssf96f9-5mBIIhg3_qofvXaK0TElyogxjN7BI7PJn2l/pub?gid=1169053887&single=true&range=A2&output=csv';
         // <<< FIN URL >>>
 
         // URLs de logos (reemplazar con las URLs reales)
@@ -734,23 +735,23 @@
             const accessButton = document.getElementById('access-button');
             const errorMessage = document.getElementById('error-message');
 
-            // 1. Obtener el código secreto de la Celda W2 (FIX aplicado aquí)
+            // 1. Obtener el código secreto de la Celda A2
             let actualCode = '';
             try {
-                // FIX PARA LECTURA DE UNA SOLA CELDA (W2)
+                // FIX PARA LECTURA DE UNA SOLA CELDA (A2)
                 const response = await fetch(securityCodeUrl);
                 if (!response.ok) {
                     throw new Error(`Error al obtener el código de seguridad. Status: ${response.status}`);
                 }
                 
-                // Simplemente obtenemos el texto de la respuesta (que es el valor de W2)
+                // Simplemente obtenemos el texto de la respuesta (que es el valor de A2)
                 let rawCode = await response.text();
                 
                 // Limpiamos el valor: eliminamos espacios, eliminamos comillas (si las puso Google Sheets)
                 actualCode = rawCode.trim().replace(/"/g, '').toUpperCase(); 
                 
                 if (actualCode === '') {
-                    console.warn('🟡 La celda W2 está vacía en Google Sheets. Se usará un código vacío para el acceso.');
+                    console.warn('🟡 La celda A2 está vacía en Google Sheets. Se usará un código vacío para el acceso.');
                 }
                 
             } catch (error) {
@@ -848,8 +849,8 @@
                 const values = lines[i].replace(/\r/g, '').split(','); 
                 const product = {};
                 if (values.length !== headers.length) {
+                    // Este es el filtro que detecta filas "rotas" (donde ocurre el error)
                     console.warn(`🟡 Línea CSV mal formada o saltada (Longitud esperada: ${headers.length}, Obtenida: ${values.length}):`, lines[i]);
-                    // Esto suele pasar si hay comas dentro del contenido de una celda sin comillas dobles.
                     continue; 
                 }
                 for (let j = 0; j < headers.length; j++) {
