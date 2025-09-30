@@ -686,7 +686,7 @@
         const logoSinTaccUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5T7nDfaM_05QQOmcKUhuZoU6CnTZt0Ig9bQ&s';
         const logoVeganoUrl = ' https://encrypted-tbn0.gstatic.com/images?q=q=tbn:ANd9GcQrWh6bS_uu0DfLFB7tEsj4aojQqHJyzH8brQ&s';
         const logoSinAzucarUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBK_h6dMpoVwkTRMSr3C3xV46pvgD2BstPhIfEu2WMn9YoxkQM97T456q_wGZzvZ5j&usqp=CAU';
-        const logoSinSalUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHjYvblrFp9CXaSMblB_l1iDsTcTq9ridCqw&s';
+        const logoSinSalUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHjYvblrFp9CXaSMbl_l1iDsTcTq9ridCqw&s';
 
         let allProducts = []; 
         
@@ -734,16 +734,24 @@
             const accessButton = document.getElementById('access-button');
             const errorMessage = document.getElementById('error-message');
 
-            // 1. Obtener el código secreto de la Celda W2
+            // 1. Obtener el código secreto de la Celda W2 (FIX aplicado aquí)
             let actualCode = '';
             try {
                 const response = await fetch(securityCodeUrl);
                 if (!response.ok) {
                     throw new Error(`Error al obtener el código de seguridad. Status: ${response.status}`);
                 }
-                // El CSV de una sola celda es solo el valor. Usamos slice(1) para quitar el encabezado vacío si existe.
-                const csvData = await response.text();
-                actualCode = csvData.trim().split('\n').slice(-1)[0].trim().toUpperCase();
+                
+                // Simplemente obtenemos el texto de la respuesta (que es el valor de W2)
+                let rawCode = await response.text();
+                
+                // Limpiamos el valor: eliminamos espacios, eliminamos comillas (si las puso Google Sheets)
+                actualCode = rawCode.trim().replace(/"/g, '').toUpperCase(); 
+                
+                if (actualCode === '') {
+                    console.warn('🟡 La celda W2 está vacía en Google Sheets. Se usará un código vacío para el acceso.');
+                }
+                
             } catch (error) {
                 console.error('🔴 Error al cargar el código de seguridad:', error);
                 errorMessage.textContent = 'Error al cargar el código. Revisa la URL de seguridad.';
@@ -796,7 +804,8 @@
                 allProducts = parseCSV(csvData);
                 
                 if (allProducts.length === 0) {
-                     throw new Error("El archivo está vacío o solo contiene encabezados.");
+                     // El error crítico ahora solo salta si el archivo de productos (completo) está vacío.
+                     throw new Error("El archivo está vacío o solo contiene encabezados."); 
                 }
 
                 // Después de cargar y parsear, actualiza la UI
@@ -816,8 +825,9 @@
                             <li>La URL de Google Sheets es incorrecta.</li>
                             <li>El documento fue despublicado.</li>
                             <li>El navegador bloqueó la conexión (error CORS).</li>
+                            <li>Detalle: ${error.message}</li>
                         </ul>
-                        <p style="font-size: 0.9em;">Revisa la consola de desarrollador para más detalles: ${error.message}</p>
+                        <p style="font-size: 0.9em;">Revisa la consola de desarrollador para más detalles.</p>
                     </div>
                 `;
             }
