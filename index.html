@@ -689,6 +689,7 @@
         const logoSinAzucarUrl = 'https://www.lastrespatas.com/source/las-tres-patas-sin-azucar.jpg';
         const logoSinSalUrl = 'https://gmbozone.net/shop/image/data/OZONO%20DOR/Sin_Toxicos/Sin_sal_OZONODOR.jpg';
         const logoKetoUrl = 'https://cdn-icons-png.flaticon.com/512/10008/10008886.png';
+        const logoOrganicoUrl = 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Organico_argentina.png';
 
         let allProducts = []; 
         
@@ -1001,6 +1002,15 @@
                             imgKeto.title = 'Keto';
                             propiedadesContainer.appendChild(imgKeto);
                         }
+                         if (productData['Organico'] === 'SI') {
+                            const imgOrganico = document.createElement('img');
+                            imgOrganico.src = logoOrganicoUrl;
+                            imgOrganico.alt = 'Organico';
+                            imgOrganico.classList.add('logo-propiedad');
+                            imgOrganico.title = 'Organico';
+                            propiedadesContainer.appendChild(imgOrganico);
+                        }
+
 
                         productoInfoDiv.appendChild(propiedadesContainer);
 
