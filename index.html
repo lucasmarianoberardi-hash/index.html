@@ -731,66 +731,52 @@
 
         // --- FUNCIONES DE SEGURIDAD Y CARGA INICIAL ---
         
-        async function checkSecurityCode() {
+       async function checkSecurityCode() {
             const loginScreen = document.getElementById('login-screen');
             const securityInput = document.getElementById('security-input');
             const accessButton = document.getElementById('access-button');
             const errorMessage = document.getElementById('error-message');
 
-            // 1. Obtener el código secreto de la Celda A2
             let actualCode = '';
             try {
-                // FIX PARA LECTURA DE UNA SOLA CELDA (A2)
                 const response = await fetch(securityCodeUrl);
-                if (!response.ok) {
-                    throw new Error(`Error al obtener el código de seguridad. Status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error('Error de conexión');
                 
-                // Simplemente obtenemos el texto de la respuesta (que es el valor de A2)
                 let rawCode = await response.text();
                 
-                // Limpiamos el valor: eliminamos espacios, eliminamos comillas (si las puso Google Sheets)
-                actualCode = rawCode.trim().replace(/"/g, '').toUpperCase(); 
+                // --- LIMPIEZA REFORZADA ---
+                // Eliminamos comillas, saltos de línea (\n \r) y espacios
+                actualCode = rawCode.replace(/["\n\r]/g, '').trim().toUpperCase();
                 
-                if (actualCode === '') {
-                    console.warn('🟡 La celda A2 está vacía en Google Sheets. Se usará un código vacío para el acceso.');
-                }
-                
+                console.log("Código detectado en la nube:", actualCode); // Para ver en la consola qué leyó
+
             } catch (error) {
-                console.error('🔴 Error al cargar el código de seguridad:', error);
-                errorMessage.textContent = 'Error al cargar el código. Revisa la URL de seguridad.';
+                console.error('Error al cargar código:', error);
+                errorMessage.textContent = 'Error al conectar con la base de datos.';
                 errorMessage.style.display = 'block';
                 document.body.style.opacity = '1';
                 return; 
             }
 
-            // 2. Definir la función de validación (usada en el botón y Enter)
             const validateCode = () => {
-                errorMessage.style.display = 'none'; 
                 const inputCode = securityInput.value.trim().toUpperCase();
 
-                if (inputCode === actualCode && inputCode !== '') {
-                    // CÓDIGO CORRECTO: Ocultar login y mostrar contenido
+                if (inputCode === actualCode && actualCode !== '') {
                     loginScreen.style.display = 'none';
                     document.body.style.opacity = '1';
-                    loadProducts(); // Cargar productos una vez validado
+                    loadProducts(); 
                 } else {
-                    // CÓDIGO INCORRECTO: Mostrar error
                     errorMessage.textContent = 'Código incorrecto. Inténtalo de nuevo.';
                     errorMessage.style.display = 'block';
-                    securityInput.value = ''; // Limpiar campo
+                    securityInput.value = ''; 
                 }
             };
 
-            // 3. Conectar el evento al botón y a la tecla Enter
             accessButton.onclick = validateCode;
             securityInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    validateCode();
-                }
+                if (e.key === 'Enter') validateCode();
             });
             
-            // Mostrar la pantalla de login (el body estaba oculto con opacity: 0)
             document.body.style.opacity = '1'; 
         }
 
