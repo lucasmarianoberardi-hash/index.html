@@ -673,15 +673,11 @@
         }
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-        // >>> URL CON TU ID DE PUBLICACIÓN (Completa) <<<
-        // URL PROPORCIONADA POR EL USUARIO PARA EL CATÁLOGO COMPLETO
-        const productsUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtRvbHZgDDAVSfbF5R7HlIrv_2w8_ZZOx87Ssf96f9-5mBIIhg3_qofvXaK0TElyogxjN7BI7PJn2l/pub?output=csv';
-        
-        // >>> URL SÓLO PARA LA CELDA A2 (CÓDIGO DE SEGURIDAD) <<<
-        // MISMA URL DE PUBLICACIÓN, PERO AGREGANDO EL RANGE=A2
-        // Nota: Asegúrate de que la celda A2 contenga el código. 
-        const securityCodeUrl = 'const securityCodeUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtRvbHZgDDAVSfbF5R7HlIrv_2w8_ZZOx87Ssf96f9-5mBIIhg3_qofvXaK0TElyogxjN7BI7PJn2l/pub?output=csv&range=A2';
-        // <<< FIN URL >>>
+       // >>> URL CON TU ID DE PUBLICACIÓN <<<
+const productsUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtRvbHZgDDAVSfbF5R7HlIrv_2w8_ZZOx87Ssf96f9-5mBIIhg3_qofvXaK0TElyogxjN7BI7PJn2l/pub?output=csv';
+
+// >>> URL SÓLO PARA LA CELDA A2 (CÓDIGO DE SEGURIDAD) <<<
+const securityCodeUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtRvbHZgDDAVSfbF5R7HlIrv_2w8_ZZOx87Ssf96f9-5mBIIhg3_qofvXaK0TElyogxjN7BI7PJn2l/pub?output=csv&range=A2';
 
         // URLs de logos (reemplazar con las URLs reales)
         const logoSinTaccUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5T7nDfaM_05QQOmcKUhuZoU6CnTZt0Ig9bQ&s';
