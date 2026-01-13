@@ -688,7 +688,6 @@
         const logoVeganoUrl = 'https://static.vecteezy.com/system/resources/thumbnails/002/300/792/small/vegan-icon-bio-ecology-organic-logos-label-tag-green-leaf-free-vector.jpg';
         const logoSinAzucarUrl = 'https://www.lastrespatas.com/source/las-tres-patas-sin-azucar.jpg';
         const logoSinSalUrl = 'https://gmbozone.net/shop/image/data/OZONO%20DOR/Sin_Toxicos/Sin_sal_OZONODOR.jpg';
-        const logoKetoUrl = 'https://cdn-icons-png.flaticon.com/512/10008/10008886.png';
 
         let allProducts = []; 
         
@@ -992,14 +991,6 @@
                             imgSinSal.classList.add('logo-propiedad');
                             imgSinSal.title = 'Sin Sal';
                             propiedadesContainer.appendChild(imgSinSal);
-                        }
-                        if (productData['Keto'] === 'SI') {
-                            const imgKeto = document.createElement('img');
-                            imgKetol.src = logoKetoUrl;
-                            imgKeto.alt = 'Keto';
-                            imgKeto.classList.add('logo-propiedad');
-                            imgKeto.title = 'Keto';
-                            propiedadesContainer.appendChild(imgKeto);
                         }
 
                         productoInfoDiv.appendChild(propiedadesContainer);
