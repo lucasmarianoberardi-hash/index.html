@@ -688,6 +688,7 @@
         const logoVeganoUrl = 'https://static.vecteezy.com/system/resources/thumbnails/002/300/792/small/vegan-icon-bio-ecology-organic-logos-label-tag-green-leaf-free-vector.jpg';
         const logoSinAzucarUrl = 'https://www.lastrespatas.com/source/las-tres-patas-sin-azucar.jpg';
         const logoSinSalUrl = 'https://gmbozone.net/shop/image/data/OZONO%20DOR/Sin_Toxicos/Sin_sal_OZONODOR.jpg';
+        const logoKetoUrl = 'https://www.splenda.ca/wp-content/uploads/2020/08/Keto-Stamp_Creamer.png';
 
         let allProducts = []; 
         
@@ -991,6 +992,14 @@
                             imgSinSal.classList.add('logo-propiedad');
                             imgSinSal.title = 'Sin Sal';
                             propiedadesContainer.appendChild(imgSinSal);
+                        }
+                        if (productData['Keto'] === 'SI') {
+                            const imgSinSal = document.createElement('img');
+                            imgSinSal.src = logoKetoUrl;
+                            imgSinSal.alt = 'Keto';
+                            imgSinSal.classList.add('logo-propiedad');
+                            imgSinSal.title = 'Keto';
+                            propiedadesContainer.appendChild(imgKeto);
                         }
 
                         productoInfoDiv.appendChild(propiedadesContainer);
